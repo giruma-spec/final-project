@@ -38,14 +38,22 @@ df_final.head()
 
 """# Graphs"""
 
-df_final['UHRSWORKT'].plot(kind='hist', bins=20, edgecolor='black')
-plt.xlabel('Hours Worked')
-plt.ylabel('Frequency')
-plt.title('Distribution of Hours Worked')
+"""# Graphs"""
 
-df_final['AnnualIncome'].plot(kind='box')
-plt.ylabel('Frequency')
-plt.title('Distribution of Annual Income')
+st.subheader("Distribution of Hours Worked")
+fig1, ax1 = plt.subplots()
+df_final['UHRSWORKT'].plot(kind='hist', bins=20, edgecolor='black', ax=ax1)
+ax1.set_xlabel('Hours Worked')
+ax1.set_ylabel('Frequency')
+ax1.set_title('Distribution of Hours Worked')
+st.pyplot(fig1)
+
+st.subheader("Distribution of Annual Income")
+fig2, ax2 = plt.subplots()
+df_final['AnnualIncome'].plot(kind='box', ax=ax2)
+ax2.set_ylabel('Annual Income')
+ax2.set_title('Distribution of Annual Income')
+st.pyplot(fig2)
 
 """# Statistical Analysis"""
 
