@@ -100,7 +100,7 @@ filtered_df = df_final[
     (df_final["AnnualIncome"].between(income_range[0], income_range[1]))
 ]
 
-st.subheader("Dataset Overview")
+header("Dataset Overview")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -115,7 +115,7 @@ The charts below update based on the selected gender and income range.
 """)
 
 # Graphs
-st.subheader("Visual Analysis")
+header("Visual Analysis")
 
 chart_col1, chart_col2 = st.columns(2)
 
@@ -162,21 +162,72 @@ with chart_col4:
 # Statistical Analysis
 st.subheader("Statistical Analysis")
 
+st.subheader("Statistical Analysis")
+
+# 1. 95% Confidence Interval for Mean Annual Income
+mean_income = df_final["AnnualIncome"].mean()
+sem_income = df_final["AnnualIncome"].sem()
+n_total = len(df_final)
+
+ci_low, ci_high = stats.t.interval(
+    0.95,
+    df=n_total - 1,
+    loc=mean_income,
+    scale=sem_income
+)
+
+st.markdown("### 95% Confidence Interval for Mean Annual Income")
+
+col1, col2, col3 = st.columns(3)
+
+col1.metric("Mean Annual Income", f"${mean_income:,.2f}")
+col2.metric("95% CI Lower Bound", f"${ci_low:,.2f}")
+col3.metric("95% CI Upper Bound", f"${ci_high:,.2f}")
+
+st.write(f"Sample size: **{n_total:,}**")
+
+st.write("""
+This confidence interval estimates the likely range for the true mean annual income in the population
+based on the cleaned sample used in this project.
+""")
+
+# 2. Two-Sample T-Test: Male vs. Female Income
 male_income = df_final[df_final["SEX"] == 1]["AnnualIncome"]
 female_income = df_final[df_final["SEX"] == 2]["AnnualIncome"]
+
+t_stat, p_value = stats.ttest_ind(
+    male_income,
+    female_income,
+    equal_var=False
+)
 
 mean_male = male_income.mean()
 mean_female = female_income.mean()
 mean_difference = mean_male - mean_female
 
-st.write(f"Mean annual income for males: **${mean_male:,.2f}**")
-st.write(f"Mean annual income for females: **${mean_female:,.2f}**")
-st.write(f"Difference in mean income: **${mean_difference:,.2f}**")
+st.markdown("### Two-Sample T-Test: Male vs. Female Annual Income")
 
-st.write("""
-This section compares average annual income between male and female workers in the cleaned dataset.
-The difference does not explain every cause of income variation, but it provides a useful starting point for understanding group-level patterns.
-""")
+col4, col5, col6 = st.columns(3)
+
+col4.metric("Male Mean Income", f"${mean_male:,.2f}")
+col5.metric("Female Mean Income", f"${mean_female:,.2f}")
+col6.metric("Difference in Means", f"${mean_difference:,.2f}")
+
+col7, col8 = st.columns(2)
+
+col7.metric("T-Statistic", f"{t_stat:.3f}")
+col8.metric("P-Value", f"{p_value:.6f}")
+
+if p_value < 0.05:
+    st.success(
+        "Result: The p-value is below 0.05, so we reject the null hypothesis. "
+        "There is a statistically significant difference in mean annual income between males and females."
+    )
+else:
+    st.info(
+        "Result: The p-value is above 0.05, so we fail to reject the null hypothesis. "
+        "There is no statistically significant difference in mean annual income between males and females."
+    )
 
 # Predictive Model
 st.subheader("Predictive Model")
