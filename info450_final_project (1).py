@@ -100,7 +100,7 @@ filtered_df = df_final[
     (df_final["AnnualIncome"].between(income_range[0], income_range[1]))
 ]
 
-header("Dataset Overview")
+st.header("Dataset Overview")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -115,7 +115,7 @@ The charts below update based on the selected gender and income range.
 """)
 
 # Graphs
-header("Visual Analysis")
+st.header("Visual Analysis")
 
 chart_col1, chart_col2 = st.columns(2)
 
