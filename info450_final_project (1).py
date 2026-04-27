@@ -162,7 +162,6 @@ with chart_col4:
 # Statistical Analysis
 st.subheader("Statistical Analysis")
 
-st.subheader("Statistical Analysis")
 
 # 1. 95% Confidence Interval for Mean Annual Income
 mean_income = df_final["AnnualIncome"].mean()
