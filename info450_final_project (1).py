@@ -212,6 +212,6 @@ st.dataframe(feature_importances.rename("Importance"))
 
 st.write("""
 The predictive model estimates whether a person is a high earner based on gender, weekly hours worked,
-education level, and whether they work over 40 hours. This makes the app more robust because it goes beyond
+education level. This makes the app more robust because it goes beyond
 basic charts and includes a simple machine learning component.
 """)
