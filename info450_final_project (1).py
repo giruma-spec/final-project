@@ -51,7 +51,6 @@ cleaned_df["HourlyWage"] = cleaned_df["HourlyWage"].replace(
 
 cleaned_df["HourlyWage"] = cleaned_df["HourlyWage"].fillna(0)
 
-cleaned_df["Over40Hours"] = (cleaned_df["UHRSWORKT"] > 40).astype(int)
 
 final_columns = [
     "SEX",
@@ -61,7 +60,6 @@ final_columns = [
     "Occupation Title",
     "OCC Code",
     "HourlyWage",
-    "Over40Hours"
 ]
 
 df_final = cleaned_df[final_columns].copy()
@@ -186,7 +184,7 @@ st.subheader("Predictive Model")
 income_threshold = df_final["AnnualIncome"].quantile(0.75)
 df_final["HighEarner"] = (df_final["AnnualIncome"] > income_threshold).astype(int)
 
-features = ["SEX", "UHRSWORKT", "EDUC", "Over40Hours"]
+features = ["SEX", "UHRSWORKT", "EDUC"]
 target = "HighEarner"
 
 X = df_final[features]
